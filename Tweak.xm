@@ -92,9 +92,9 @@ void handleCommand(NSDictionary *command) {
 	NSArray *params = [command objectForKey:@"params"];
 	// -- K2geLocker --
 	if ([name isEqualToString:@"K2geLocker"]) {
-		if ([params[0] isEqualToString:@"check"]){         // check installed and has perms
+		if ([params[0] isEqualToString:@"check"]){ // check installed and has perms
 			sendResponse(createResponse(uuid, hasBiometricsPerm() ? @"yes" : @"no"));
-		} else if ([params[0] isEqualToString:@"authentication"]){         // do authentication
+		} else if ([params[0] isEqualToString:@"authentication"]){ // do authentication
 			handleAuthenticate(uuid);
 		}
 	}
@@ -102,7 +102,7 @@ void handleCommand(NSDictionary *command) {
 
 %hook GULAppDelegateSwizzler // handle it before Enmity hooks it
 - (BOOL)application: (UIApplication *)app openURL: (NSURL *)url options: (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-	// NSLog(@"K2genmity | %@", url.absoluteString);
+	// NSLog(@"K2genmity | openURL: %@", url.absoluteString);
 	NSString *input = url.absoluteString;
 	if (!validateCommand(input)) {
 		%orig;
@@ -121,13 +121,13 @@ void handleCommand(NSDictionary *command) {
 /* YYTextContainer: https://github.com/ibireme/YYKit/blob/4e1bd1cfcdb3331244b219cbd37cc9b1ccb62b7a/YYKit/Text/Component/YYTextLayout.m#L280 */
 %hook YYTextContainer
 - (void)setMaximumNumberOfRows: (NSUInteger)maximumNumberOfRows {
-	// NSLog(@"K2genmity | value %ld", (long)maximumNumberOfRows);
+	// NSLog(@"K2genmity | setMaximumNumberOfRows: %ld", (long)maximumNumberOfRows);
 	if (maximumNumberOfRows == 3){
 		maximumNumberOfRows = 100;
 	}
 }
 %end
 
-//%ctor {
-//    NSLog(@"K2genmity | Init!");
-//}
+%ctor {
+	// NSLog(@"K2genmity | Initialized");
+}
