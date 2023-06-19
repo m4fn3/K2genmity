@@ -1,0 +1,9 @@
+Package: com.m4fn3.k2genmity
+Name: K2genmity
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Enhance features of Enmity plugins by mafu
+Maintainer: mafu
+Author: mafu
+Section: Tweaks
+Depends: mobilesubstrate
