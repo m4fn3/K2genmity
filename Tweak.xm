@@ -128,6 +128,6 @@ void handleCommand(NSDictionary *command) {
 }
 %end
 
-%ctor {
-    NSLog(@"K2genmity | Init!");
-}
+//%ctor {
+//    NSLog(@"K2genmity | Init!");
+//}
