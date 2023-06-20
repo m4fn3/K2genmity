@@ -119,14 +119,14 @@ void handleCommand(NSDictionary *command) {
 
 // -- highlightCode --
 /* YYTextContainer: https://github.com/ibireme/YYKit/blob/4e1bd1cfcdb3331244b219cbd37cc9b1ccb62b7a/YYKit/Text/Component/YYTextLayout.m#L280 */
-%hook YYTextContainer
-- (void)setMaximumNumberOfRows: (NSUInteger)maximumNumberOfRows {
-	// NSLog(@"K2genmity | setMaximumNumberOfRows: %ld", (long)maximumNumberOfRows);
-	if (maximumNumberOfRows == 3){
-		maximumNumberOfRows = 100;
-	}
-}
-%end
+// %hook YYTextContainer
+// - (void)setMaximumNumberOfRows: (NSUInteger)maximumNumberOfRows {
+// 	// NSLog(@"K2genmity | setMaximumNumberOfRows: %ld", (long)maximumNumberOfRows);
+// 	if (maximumNumberOfRows == 3){
+// 		maximumNumberOfRows = 100;
+// 	}
+// }
+// %end
 
 %ctor {
 	// NSLog(@"K2genmity | Initialized");
