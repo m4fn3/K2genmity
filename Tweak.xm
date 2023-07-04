@@ -161,7 +161,3 @@ void handleCommand(NSDictionary *command) {
 	}
 }
 %end
-
-%ctor {
-	NSLog(@"Initialized");
-}
