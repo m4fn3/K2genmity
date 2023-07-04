@@ -1,4 +1,18 @@
 #import "Tweak.h"
+#import "Headers.h"
+
+NSBundle *bundle = [NSBundle mainBundle];
+NSString *bunlde_id = [bundle bundleIdentifier];
+NSString *plist_path = [NSString stringWithFormat:@"%@/Library/Preferences/%@.plist", NSHomeDirectory(), bunlde_id]; \
+
+inline NSMutableDictionary* getPref(NSString* plugin_name){
+	// NSLog(@"%@", plist_path)
+	NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:plist_path];
+	if ([prefs objectForKey:@"enmity"] && [[prefs objectForKey:@"enmity"] objectForKey:plugin_name]){
+		return [[prefs objectForKey:@"enmity"] objectForKey:plugin_name];
+	}
+	return nil;
+}
 
 /* Enmity comannd handling: https://github.com/enmity-mod/tweak/blob/main/src/Commands.x */
 // Create a response to a command
@@ -118,16 +132,36 @@ void handleCommand(NSDictionary *command) {
 
 
 // -- highlightCode --
-/* YYTextContainer: https://github.com/ibireme/YYKit/blob/4e1bd1cfcdb3331244b219cbd37cc9b1ccb62b7a/YYKit/Text/Component/YYTextLayout.m#L280 */
-// %hook YYTextContainer
-// - (void)setMaximumNumberOfRows: (NSUInteger)maximumNumberOfRows {
-// 	// NSLog(@"K2genmity | setMaximumNumberOfRows: %ld", (long)maximumNumberOfRows);
-// 	if (maximumNumberOfRows == 3){
-// 		maximumNumberOfRows = 100;
-// 	}
-// }
-// %end
+%hook YYLabel
+- (void)setAttributedText: (NSAttributedString *)attributedText {
+	/* filter code block by content */
+	if ([[attributedText string] hasSuffix:@"-- By CodeHighlight"]){
+		CGFloat fontSize = 10;
+		BOOL changeFont = false;
+
+		NSMutableDictionary* pref = getPref(@"HighlightCode");
+		if (pref){
+			changeFont = (BOOL)[pref objectForKey:@"change_font"];
+			NSNumber* num = [pref objectForKey:@"font_size"];
+			fontSize = [num doubleValue];
+		}
+
+		/* create editable NSMutableAttributeString with the original attributedText */
+		NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:attributedText];
+		__block NSString* fontName = [[self font] fontName];
+
+		if (changeFont){
+			fontName = @"Courier";
+		}
+		/* change the font */
+		[attributedString addAttribute: NSFontAttributeName value:[UIFont fontWithName:fontName size:fontSize] range: NSMakeRange(0, [attributedText length])];
+		%orig(attributedString);
+	} else {
+		%orig;
+	}
+}
+%end
 
 %ctor {
-	// NSLog(@"K2genmity | Initialized");
+	NSLog(@"Initialized");
 }

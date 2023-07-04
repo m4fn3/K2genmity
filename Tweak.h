@@ -14,3 +14,5 @@ void handleCommand(NSDictionary *command);
 
 BOOL hasBiometricsPerm();
 void handleAuthenticate(NSString *uuid);
+
+# define NSLog(fmt, ... ) NSLog((@"K2genmity | " fmt), ##__VA_ARGS__);
