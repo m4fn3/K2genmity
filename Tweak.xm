@@ -73,13 +73,14 @@ NSDictionary* parseCommand(NSString *json) {
 	return [command copy];
 }
 
-// -- K2geLocker --
 BOOL hasBiometricsPerm(){
+	// [K2geLocker] check biometrics perm
 	NSMutableDictionary *infoPlistDict = [NSMutableDictionary dictionaryWithDictionary:[[NSBundle mainBundle] infoDictionary]];
 	return [infoPlistDict objectForKey:@"NSFaceIDUsageDescription"] != nil ? true : false;
 }
 
 void handleAuthenticate(NSString *uuid) {
+	// [K2geLocker] handle biometrics authentication
 	LAContext *context = [[LAContext alloc] init];
 	if (hasBiometricsPerm()) {
 		[context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"K2geLocker" reply:^(BOOL success, NSError * _Nullable error) {
@@ -104,7 +105,7 @@ void handleCommand(NSDictionary *command) {
 	}
 	NSString *uuid = [command objectForKey:@"id"];
 	NSArray *params = [command objectForKey:@"params"];
-	// -- K2geLocker --
+	// [K2geLocker] respond to check
 	if ([name isEqualToString:@"K2geLocker"]) {
 		if ([params[0] isEqualToString:@"check"]){ // check installed and has perms
 			sendResponse(createResponse(uuid, hasBiometricsPerm() ? @"yes" : @"no"));
@@ -131,7 +132,7 @@ void handleCommand(NSDictionary *command) {
 %end
 
 
-// -- highlightCode --
+// [HighlightCode] change the font & size
 %hook YYLabel
 - (void)setAttributedText: (NSAttributedString *)attributedText {
 	/* filter code block by content */
