@@ -10,7 +10,7 @@ ARCHS := arm64 arm64e
 
 TARGET := iphone:clang:latest:7.0
 
-THEOS_DEVICE_IP=localhost
+THEOS_DEVICE_IP=192.168.11.9
 THEOS_DEVICE_PORT=22
 
 SDK_PATH = $(THEOS)/sdks/iPhoneOS14.5.sdk/

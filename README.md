@@ -5,8 +5,9 @@ Enhance features of my Enmity plugins
 ### [K2geLocker](https://github.com/m4fn3/K2geLocker)
 K2genmity allows you to use biometrics authentication for unlocking.
 
-※ You need to modify Info.plist to include NSFaceIDUsageDescription key (value can be anything)
-
+**Additionally, you need to modify Info.plist to include NSFaceIDUsageDescription key (value can be anything)**
+<br> Jailbroken users: extract the ipa and edit <IPA file>/Payload/Info.plist 
+<br> Non-jailbroken users: go to /var/containers/Bundle/Application/ -> select Discord -> Discord.app/Info.plist with Filza
 
 ### [HighlightCode](https://github.com/m4fn3/HighlightCode)
 K2genmity allows you to use monospace font & change font size to whatever you like for highlighted code.
